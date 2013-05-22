@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Opponent" />
+
+    <EditText
+        android:id="@+id/opponentTextField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/gm1Button"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Gm1" />
+
+        <RadioButton
+            android:id="@+id/gm2Button"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Gm2" />
+
+        <RadioButton
+            android:id="@+id/gm3Button"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Gm3" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:onClick="start"
+            android:text="Start" />
+        
+
+        <Button
+            android:id="@+id/archiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="archive"
+            android:text="Archive" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="128dp" >
+
+        <TextView
+            android:id="@+id/homeScore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.60"
+            android:text="HOME"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text90" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/homePlusButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/homeMinusButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="128dp" >
+
+        <TextView
+            android:id="@+id/awayScore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.60"
+            android:text="AWAY"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/text90"
+            android:typeface="normal" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/awayPlusButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/awayMinusButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:text="-" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
