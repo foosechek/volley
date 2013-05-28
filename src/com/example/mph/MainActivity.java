@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 // import everything you need
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -48,6 +50,7 @@ public class MainActivity extends Activity implements OnClickListener{
     RadioButton gm1Button;
     RadioButton gm2Button;
     RadioButton gm3Button;
+    ImageView alert;
     
     EditText msgTextField;
     EditText opponentTextField;
@@ -71,6 +74,8 @@ public class MainActivity extends Activity implements OnClickListener{
            .detectNetwork()   // or .detectAll() for all detectable problems
            .penaltyLog()
            .build());
+    	   
+    	   setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     	
         super.onCreate(savedInstanceState);
         // load the layout
@@ -88,6 +93,7 @@ public class MainActivity extends Activity implements OnClickListener{
         gm1Button = (RadioButton) findViewById(R.id.gm1Button);
         gm2Button = (RadioButton) findViewById(R.id.gm2Button);
         gm3Button = (RadioButton) findViewById(R.id.gm3Button);
+        alert = (ImageView) findViewById(R.id.imageView1);
         // make textview object
         homeScore = (TextView) findViewById(R.id.homeScore);
         awayScore = (TextView) findViewById(R.id.awayScore);
@@ -99,7 +105,8 @@ public class MainActivity extends Activity implements OnClickListener{
         gm1Button.setOnClickListener(this);
         gm2Button.setOnClickListener(this);
         gm3Button.setOnClickListener(this);
-        
+        gm1Button.setChecked(true);
+        gamenum = 1;
     }
 
     // this is the function that gets called when you click the button
@@ -107,25 +114,36 @@ public class MainActivity extends Activity implements OnClickListener{
     {
         // get the message from the message text box  
         String opponent = opponentTextField.getText().toString();
-        String game = Integer.toString(gamenum);
+            
+        homescore = 0;
+        homeScore.setText(Integer.toString(homescore));
+        awayscore = 0;
+        awayScore.setText(Integer.toString(awayscore));
+
+        
      
         // make sure the fields are not empty
         if (opponent.length()>0)
         {
         	HttpParams params = new BasicHttpParams(); 
-        	HttpConnectionParams.setConnectionTimeout(params, 15000); 
-        	HttpConnectionParams.setSoTimeout(params, 20000);
+        	HttpConnectionParams.setConnectionTimeout(params, 5000); 
+        	HttpConnectionParams.setSoTimeout(params, 10000);
         	
         	HttpClient httpclient = new DefaultHttpClient(params);
-	   	    HttpPost httppost = new HttpPost("http://192.168.1.150/script.php");
-        	//HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
+	   	    //HttpPost httppost = new HttpPost("http://192.168.1.102/script.php");
+        	HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
 	   	 try {
 	   	   List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-	       nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+	       nameValuePairs.add(new BasicNameValuePair("id", "START"));
 	       nameValuePairs.add(new BasicNameValuePair("opponent", opponent));
-	       nameValuePairs.add(new BasicNameValuePair("game", game));
+	       nameValuePairs.add(new BasicNameValuePair("game", Integer.toString(gamenum)));
 	       httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	       HttpResponse response = httpclient.execute(httppost);
+	       if (response.getStatusLine().getStatusCode() != 200)
+	    	   alert.setVisibility(View.VISIBLE);
+	       else
+	    	   alert.setVisibility(View.INVISIBLE);
+	       
 	     } catch (ClientProtocolException e) {
 	    	  e.printStackTrace();
 	     } catch (IOException e) {
@@ -142,25 +160,41 @@ public class MainActivity extends Activity implements OnClickListener{
     }
     
     // this is the function that gets called when you click the button
-    public void archive(View v)
+    @SuppressLint("NewApi")
+	public void archive(View v)
     {
         // get the message from the message text box  
         String opponent = opponentTextField.getText().toString();
         String game = Integer.toString(gamenum);
+        
+        homescore = 0;
+        homeScore.setText(Integer.toString(homescore));
+        awayscore = 0;
+        awayScore.setText(Integer.toString(awayscore));
+        gm1Button.setChecked(true);
+        gm2Button.setChecked(false);
+        gm3Button.setChecked(false);
+        opponentTextField.setText("");
+        gamenum =1; 
+        
      
       	HttpParams params = new BasicHttpParams(); 
-       	HttpConnectionParams.setConnectionTimeout(params, 15000); 
-       	HttpConnectionParams.setSoTimeout(params, 20000);
+       	HttpConnectionParams.setConnectionTimeout(params, 5000); 
+       	HttpConnectionParams.setSoTimeout(params, 10000);
        	
        	HttpClient httpclient = new DefaultHttpClient(params);
-   	    HttpPost httppost = new HttpPost("http://192.168.1.150/script.php");
-       	//HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
+   	    //HttpPost httppost = new HttpPost("http://192.168.1.102/script.php");
+       	HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
      	try {
      		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-     		nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+     		nameValuePairs.add(new BasicNameValuePair("id", "ARCHIVE"));
      		nameValuePairs.add(new BasicNameValuePair("archive", "archive"));
      		httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
      		HttpResponse response = httpclient.execute(httppost);
+     	    if (response.getStatusLine().getStatusCode() != 200)
+   	    	   alert.setVisibility(View.VISIBLE);
+   	        else
+   	    	   alert.setVisibility(View.INVISIBLE);
 	    } catch (ClientProtocolException e) {
 	    	e.printStackTrace();
 	    } catch (IOException e) {
@@ -205,20 +239,27 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		if(update) {
 			HttpParams params = new BasicHttpParams(); 
-        	HttpConnectionParams.setConnectionTimeout(params, 15000); 
-        	HttpConnectionParams.setSoTimeout(params, 20000);
+        	HttpConnectionParams.setConnectionTimeout(params, 5000); 
+        	HttpConnectionParams.setSoTimeout(params, 10000);
         	
         	HttpClient httpclient = new DefaultHttpClient(params);
-	   	    HttpPost httppost = new HttpPost("http://192.168.1.150/script.php");
-        	//HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
+	   	    //HttpPost httppost = new HttpPost("http://192.168.1.102/script.php");
+        	HttpPost httppost = new HttpPost("http://www.foosechek.org/script.php");
 	   	 try {
 	   	   List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-	       nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+	       nameValuePairs.add(new BasicNameValuePair("id", "SCORE"));
+	       nameValuePairs.add(new BasicNameValuePair("game", Integer.toString(gamenum)));
 	       nameValuePairs.add(new BasicNameValuePair("home", Integer.toString(homescore)));
 	       nameValuePairs.add(new BasicNameValuePair("away", Integer.toString(awayscore)));
 	       httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	       HttpResponse response = httpclient.execute(httppost);
-	     } catch (ClientProtocolException e) {
+	       if (response.getStatusLine().getStatusCode() != 200)
+	    	   alert.setVisibility(View.VISIBLE);
+	       else
+	    	   alert.setVisibility(View.INVISIBLE);
+	       
+	    	   
+	   	 } catch (ClientProtocolException e) {
 	    	  e.printStackTrace();
 	     } catch (IOException e) {
 	    	  e.printStackTrace();
