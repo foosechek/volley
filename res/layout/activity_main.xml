@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
 
     <TextView
         android:layout_width="fill_parent"
@@ -21,21 +23,39 @@
 
         <RadioButton
             android:id="@+id/gm1Button"
-            android:layout_width="92dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:text="Gm1" />
+            android:text="1"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/gm2Button"
-            android:layout_width="92dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:text="Gm2" />
+            android:text="2"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/gm3Button"
-            android:layout_width="92dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:text="Gm3" />
+            android:text="3"
+             android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/gm4Button"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/gm5Button"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textSize="20sp" />
+
     </RadioGroup>
 
     <LinearLayout
@@ -53,6 +73,7 @@
             android:id="@+id/archiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.03"
             android:onClick="archive"
             android:text="Archive" />
 
@@ -87,17 +108,20 @@
             <Button
                 android:id="@+id/homePlusButton"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.50"
                 android:text="+" />
 
             <Button
                 android:id="@+id/homeMinusButton"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.50"
                 android:text="-" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -122,17 +146,17 @@
             <Button
                 android:id="@+id/awayPlusButton"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.30"
+                android:layout_weight="0.50"
                 android:text="+" />
 
             <Button
                 android:id="@+id/awayMinusButton"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.30"
+                android:layout_weight="0.50"
                 android:text="-" />
         </LinearLayout>
     </LinearLayout>
